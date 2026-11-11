@@ -11,6 +11,11 @@ It has no framework and no database, so it can run on any web host.
 - `src/build.py`: rebuilds every page in `dist/` from the data and templates.
 - `dist/assets/`: CSS, JS, self-hosted fonts (Anek Latin and Mukta, OFL licence), images (WebP), favicon.
 
+## GitHub Pages
+
+Pages is set to deploy from `main`, root folder. The root `index.html` forwards visitors to `dist/index.html`, and `.nojekyll` makes Pages serve the files as they are.
+For a clean URL without `/dist/`, set Pages to deploy from GitHub Actions and publish the `dist/` folder.
+
 ## Build
 
 ```
