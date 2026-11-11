@@ -1,0 +1,70 @@
+{% macro service_card(s) -%}
+<a class="service-card" href="{{ s.slug }}.html">
+  <span class="service-card__icon">{{ icon(s.icon, 'icon icon--lg') }}</span>
+  <h3>{{ s.name }}</h3>
+  <p>{{ s.card }}</p>
+  <span class="service-card__price">From {{ s.from }}{% if s.scheme %}, scheme covered{% endif %}</span>
+</a>
+{%- endmacro %}
+
+{% macro person(d, book=True, sizes='(max-width: 640px) 62vw, 200px') -%}
+<div class="person">
+  {{ img(d.photo, d.name, sizes) }}
+  <div class="person__body">
+    <strong>{{ d.name }}</strong>
+    <span>{{ d.role }}</span>
+    <small>{{ d.creds }}</small>
+    {% if book %}<a href="book.html?dentist={{ d.key }}">Book with {{ d.name.split(' ')[0] }} {{ d.name.split(' ')[-1] }}</a>{% endif %}
+  </div>
+</div>
+{%- endmacro %}
+
+{% macro location_card(loc, map=False) -%}
+<article class="location">
+  <div class="location__body">
+    <div class="location__head"><h3>{{ loc.name }}</h3><span class="status" data-status="{{ loc.key }}"></span></div>
+    <address>{{ loc.address }}</address>
+    <table class="hours"><caption class="visually-hidden">Opening hours, {{ loc.short }}</caption>
+      {% for d, idx, t in loc.hours %}<tr data-day="{{ idx }}"><th scope="row">{{ d }}</th><td>{{ t }}</td></tr>{% endfor %}
+    </table>
+    {% if map %}<div class="map-slot">{% if LIVE %}<button class="btn btn--outline" type="button" data-map="{{ loc.map_q }}" data-title="Map of {{ loc.name }}">{{ icon('pin') }}Show map</button>{% else %}<a class="btn btn--outline" href="{{ loc.maps }}">{{ icon('pin') }}Open in Google Maps</a>{% endif %}</div>{% endif %}
+    <div class="btn-row">
+      <a class="btn btn--secondary" href="{{ loc.maps }}">{{ icon('pin') }}Get directions</a>
+      <a class="btn btn--outline" href="tel:{{ loc.tel }}">{{ icon('phone') }}{{ loc.phone }}</a>
+    </div>
+  </div>
+</article>
+{%- endmacro %}
+
+{% macro faq(items) -%}
+<div class="faq">
+  {% for q, a in items %}<details><summary>{{ q }}</summary><div><p>{{ a }}</p></div></details>{% endfor %}
+</div>
+{%- endmacro %}
+
+{% macro cta(title='Book your visit today.', text='Booking is free. We confirm your slot on WhatsApp within 30 minutes during clinic hours.') -%}
+<section class="cta" aria-label="Book an appointment">
+  <div class="container">
+    <div><h2>{{ title }}</h2><p>{{ text }}</p></div>
+    <div class="btn-row">
+      <a class="btn btn--primary btn--lg" href="book.html">Book appointment</a>
+      <a class="btn btn--ghost-light btn--lg" href="tel:{{ C.tollfree_tel }}">Toll-free {{ C.tollfree }}</a>
+    </div>
+  </div>
+</section>
+{%- endmacro %}
+
+{% macro scheme_logos() -%}
+<div class="logo-row">
+  <div class="logo-tile"><img src="assets/img/logo-cghs.png" alt="CGHS" width="91" height="130"></div>
+  <div class="logo-tile"><img src="assets/img/logo-rghs.png" alt="RGHS" width="157" height="119"></div>
+  <div class="logo-tile"><img src="assets/img/logo-echs.png" alt="ECHS" width="209" height="118"></div>
+  <div class="logo-tile"><img src="assets/img/logo-nabh.png" alt="NABH accredited" width="124" height="123"></div>
+</div>
+{%- endmacro %}
+
+{% macro crumbs(items) -%}
+<ol class="crumbs" aria-label="Breadcrumb">
+  {% for name, href in items %}<li>{% if loop.last %}<span aria-current="page">{{ name }}</span>{% else %}<a href="{{ href }}">{{ name }}</a>{% endif %}</li>{% endfor %}
+</ol>
+{%- endmacro %}

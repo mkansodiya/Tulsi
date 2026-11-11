@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="page-head">
+  <div class="container">
+    {{ m.crumbs([('Home','index.html'),('Treatments','services.html')]) }}
+    <h1>Dental treatments in Ajmer</h1>
+    <p class="lead" style="margin-top:10px">Everything from check-ups to implants, with starting prices shown upfront. Scheme members get covered treatment cashless.</p>
+  </div>
+</section>
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="grid grid--services">
+      {% for s in SERVICES %}{{ m.service_card(s) }}{% endfor %}
+    </div>
+    <p class="muted mt-lg">Not sure what you need? <a href="book.html">Book a consultation</a> for ₹200 and your dentist will advise.</p>
+  </div>
+</section>
+{{ m.cta() }}
+{% endblock %}

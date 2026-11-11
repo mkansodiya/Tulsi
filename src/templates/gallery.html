@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="page-head">
+  <div class="container">
+    {{ m.crumbs([('Home','index.html'),('Gallery','gallery.html')]) }}
+    <div class="section-head" style="margin-bottom:0">
+      <h1>Gallery</h1>
+      <div class="filters" data-filters role="group" aria-label="Filter photos">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="clinic" aria-pressed="false">Our clinic</button>
+        <button type="button" data-filter="team" aria-pressed="false">Our team</button>
+        <button type="button" data-filter="events" aria-pressed="false">Events</button>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="grid grid--gallery">
+      {% for cat, name, cap in GALLERY %}
+      <figure class="gallery-item" data-cat="{{ cat }}">
+        <button type="button" data-full="{{ full(name) }}" data-caption="{{ cap }}" aria-label="Enlarge photo: {{ cap }}">{{ img(name, cap, '(max-width: 640px) 50vw, 280px') }}</button>
+        <figcaption>{{ cap }}</figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<dialog class="lightbox" id="lightbox" aria-label="Photo">
+  <button class="lightbox__close" type="button" aria-label="Close photo">×</button>
+  <img src="" alt="">
+  <p></p>
+</dialog>
+{{ m.cta() }}
+{% endblock %}

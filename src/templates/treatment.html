@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="page-head">
+  <div class="container split">
+    <div class="stack">
+      {{ m.crumbs([('Home','index.html'),('Treatments','services.html'),(s.name, s.slug ~ '.html')]) }}
+      <h1>{{ s.title }}</h1>
+      <p class="lead">{{ s.intro }}</p>
+      <div class="facts">
+        <span class="chip">From {{ s.from }}</span>
+        <span class="chip">{{ icon('clock') }}{{ s.visits }}</span>
+        {% if s.scheme %}<span class="chip chip--green">{{ icon('check') }}Covered under CGHS, RGHS, ECHS</span>{% else %}<span class="chip chip--warm">Not covered by schemes, EMI available</span>{% endif %}
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--lg" href="book.html?treatment={{ s.slug }}">{{ icon('calendar') }}Book a consultation</a>
+        <a class="btn btn--outline btn--lg" href="{{ C.whatsapp_link }}?text={{ ('Hi, I have a question about ' ~ s.name|lower ~ '.')|urlencode }}">{{ icon('whatsapp', 'icon wa-green') }}Ask on WhatsApp</a>
+      </div>
+    </div>
+    {{ img(s.img, 'A Tulsi dentist at work', '(max-width: 860px) 100vw, 540px', 'rounded', eager=True) }}
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container split split--top">
+    <div class="stack">
+      <h2>Is this for me?</h2>
+      <p>You may need this treatment if you have:</p>
+      <ul class="ticks">{% for t in s.signs %}<li>{{ t }}</li>{% endfor %}</ul>
+      <p class="muted">Only an examination, and an X-ray where needed, can confirm it. We have X-rays at the clinic.</p>
+    </div>
+    <div class="stack">
+      <h2>What happens</h2>
+      <ol class="steps steps--cards">{% for t, d in s.steps %}<li><div><strong>{{ t }}</strong><span>{{ d }}</span></div></li>{% endfor %}</ol>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid--2">
+    <div class="panel"><h2>Comfort and recovery</h2><p>{{ s.comfort }}</p></div>
+    <div class="panel panel--tint">
+      <h2>Cost</h2>
+      <div class="price-box"><table class="price-table"><caption class="visually-hidden">{{ s.name }} prices</caption>
+        <tbody>{% for n, p in s.costs %}<tr><td>{{ n }}</td><td class="price">{{ p }}</td></tr>{% endfor %}</tbody>
+      </table></div>
+      <p class="muted" style="margin-top:10px">Final cost depends on your tooth and is confirmed before treatment. {% if s.scheme %}Scheme members: covered parts are cashless.{% endif %} <a href="schemes-prices.html">Full price list</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section-head"><h2>Who treats you</h2></div>
+    <div class="people" style="grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 220px))">
+      {% for k in s.dentists %}{{ m.person(DENTIST[k]) }}{% endfor %}
+    </div>
+    <p class="muted mt-lg">Page reviewed by the Tulsi Dental Clinic dental team, November 2026.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ s.name }}: common questions</h2></div>
+    {{ m.faq(s.faqs) }}
+  </div>
+</section>
+
+<section class="section section--tint" style="padding: 32px 0">
+  <div class="container">
+    <h2 style="font-size:22px;margin-bottom:14px">Related treatments</h2>
+    <div class="grid grid--services">{% for r in s.related %}{{ m.service_card(SERVICE[r]) }}{% endfor %}</div>
+  </div>
+</section>
+
+{{ m.cta('In pain or unsure? We will find you a slot.') }}
+{% endblock %}

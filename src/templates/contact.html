@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="page-head">
+  <div class="container">
+    {{ m.crumbs([('Home','index.html'),('Contact','contact.html')]) }}
+    <h1>Contact and timings</h1>
+    <p class="lead" style="margin-top:10px">Call, WhatsApp or visit either clinic. For appointments, the quickest way is to <a href="book.html">book online</a>.</p>
+    <div class="btn-row mt-lg">
+      <a class="btn btn--secondary" href="tel:{{ C.phone_main_tel }}">{{ icon('phone') }}{{ C.phone_main }}</a>
+      <a class="btn btn--outline" href="tel:{{ C.phone_alt_tel }}">{{ icon('phone') }}{{ C.phone_alt }}</a>
+      <a class="btn btn--outline" href="tel:{{ C.tollfree_tel }}">{{ icon('phone') }}Toll-free {{ C.tollfree }}</a>
+      <a class="btn btn--outline" href="{{ C.whatsapp_link }}">{{ icon('whatsapp', 'icon wa-green') }}WhatsApp</a>
+      <a class="btn btn--outline" href="mailto:{{ C.email }}">{{ C.email }}</a>
+    </div>
+  </div>
+</section>
+<section class="section" style="padding-top:0">
+  <div class="container grid grid--2">
+    {% for loc in LOCATIONS %}{{ m.location_card(loc, map=True) }}{% endfor %}
+  </div>
+</section>
+{{ m.cta() }}
+{% endblock %}

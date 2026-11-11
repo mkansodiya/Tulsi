@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="section section--tint" style="padding-top: clamp(20px,4vw,40px)">
+  <div class="container book-layout">
+    <div class="panel">
+      <form id="book-form" class="form" novalidate>
+        <div class="stack-sm">
+          <h1>Book an appointment</h1>
+          <p class="muted" style="font-size:16px">Free to book. Takes under a minute. We confirm your slot on WhatsApp.</p>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="bk-name">Your name</label>
+            <input class="input" id="bk-name" name="name" type="text" autocomplete="name" required aria-describedby="err-name">
+            <span class="field__error" id="err-name">Enter your name.</span>
+          </div>
+          <div class="field">
+            <label for="bk-phone">Mobile number</label>
+            <div class="input-group"><span>+91</span><input class="input" id="bk-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" required aria-describedby="err-phone"></div>
+            <span class="field__error" id="err-phone">Enter a 10-digit mobile number starting with 6, 7, 8 or 9.</span>
+          </div>
+        </div>
+        <fieldset class="field">
+          <legend>Which clinic?</legend>
+          <div class="options">
+            {% for loc in LOCATIONS %}
+            <div class="option"><input type="radio" id="cl-{{ loc.key }}" name="clinic" value="{{ loc.key }}" data-label="{{ loc.short }}" {% if loop.first %}checked{% endif %}><label for="cl-{{ loc.key }}">{{ loc.name }}<small>{{ loc.hours[0][0] }}, {{ loc.hours[0][2] }}</small></label></div>
+            {% endfor %}
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>When would you like to come?</legend>
+          <div class="options options--pills">
+            {% for v, l in [('today','Today'),('tomorrow','Tomorrow'),('pick','Pick a date')] %}<div class="option"><input type="radio" id="day-{{ v }}" name="day" value="{{ v }}" data-label="{{ l }}" {% if loop.first %}checked{% endif %}><label for="day-{{ v }}">{{ l }}</label></div>{% endfor %}
+          </div>
+          <div class="field" id="date-wrap" hidden style="max-width:260px;margin-top:8px">
+            <label for="bk-date" class="visually-hidden">Date</label>
+            <input class="input" type="date" id="bk-date" name="date" aria-describedby="err-date">
+            <span class="field__error" id="err-date">Choose a date.</span>
+          </div>
+          <div class="options options--pills" style="margin-top:8px">
+            {% for v, l in [('morning','Morning'),('afternoon','Afternoon'),('evening','Evening')] %}<div class="option"><input type="radio" id="t-{{ v }}" name="time" value="{{ v }}" data-label="{{ l }}" {% if loop.first %}checked{% endif %}><label for="t-{{ v }}">{{ l }}</label></div>{% endfor %}
+          </div>
+        </fieldset>
+        <div class="form-row">
+          <div class="field">
+            <label for="bk-concern">What do you need help with? <span class="hint">(optional)</span></label>
+            <select class="select" id="bk-concern" name="concern">
+              <option value="">Not sure / check-up</option>
+              {% for s in SERVICES %}<option value="{{ s.slug }}">{{ s.name }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label for="bk-dentist">Preferred dentist <span class="hint">(optional)</span></label>
+            <select class="select" id="bk-dentist" name="dentist">
+              <option value="">Any dentist</option>
+              {% for d in DENTISTS %}<option value="{{ d.key }}">{{ d.name }}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" name="scheme">I have a CGHS, RGHS or ECHS card</label>
+        <div class="stack-sm">
+          <button class="btn btn--primary btn--lg btn--block" type="submit">Request appointment</button>
+          <p class="muted">We use your name and number only to arrange this appointment and delete them after 90 days. <a href="privacy.html">Privacy policy</a></p>
+        </div>
+      </form>
+
+      <div id="book-success" class="success" hidden aria-live="polite">
+        <div class="success__icon">{{ icon('check', 'icon icon--lg') }}</div>
+        <h2 tabindex="-1">Thank you, <span data-out="name"></span>. Request received.</h2>
+        {% if LIVE %}
+        <p>Tap the button below to send your request to us on WhatsApp. We will reply with a confirmed time within 30 minutes during clinic hours.</p>
+        {% else %}
+        <p>In the live site, this request goes to the clinic on WhatsApp and you get a confirmed time within 30 minutes during clinic hours. This concept does not send anything.</p>
+        {% endif %}
+        <dl class="summary">
+          <dt>Mobile</dt><dd data-out="phone"></dd>
+          <dt>Clinic</dt><dd data-out="clinic"></dd>
+          <dt>Preferred time</dt><dd data-out="when"></dd>
+          <dt>For</dt><dd data-out="concern"></dd>
+          <dt>Dentist</dt><dd data-out="dentist"></dd>
+          <div data-out="scheme-row"><dt>Scheme</dt><dd>Bring your card and referral</dd></div>
+        </dl>
+        <div class="btn-row">
+          {% if LIVE %}<a class="btn btn--primary btn--lg" id="wa-send" href="{{ C.whatsapp_link }}">{{ icon('whatsapp') }}Send on WhatsApp</a>{% endif %}
+          <button class="btn btn--outline" id="book-again" type="button">Book another</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="stack">
+      <div class="panel" style="background:var(--navy-900);border-color:var(--navy-900);color:#DDE3EA">
+        <h2 style="color:#fff;font-size:20px">What happens next</h2>
+        <ol class="steps" style="margin-top:8px">
+          <li><div><strong style="color:#fff">We check the schedule</strong><span style="color:#C9D3DD">For your preferred clinic and time.</span></div></li>
+          <li><div><strong style="color:#fff">You get a WhatsApp message</strong><span style="color:#C9D3DD">With your confirmed slot.</span></div></li>
+          <li><div><strong style="color:#fff">We remind you</strong><span style="color:#C9D3DD">The day before, and two hours before.</span></div></li>
+        </ol>
+      </div>
+      <div class="panel stack-sm">
+        <h2 style="font-size:18px;margin:0">Rather talk to us?</h2>
+        <p><a href="tel:{{ C.phone_main_tel }}">{{ C.phone_main }}</a></p>
+        <p><a href="tel:{{ C.tollfree_tel }}">Toll-free {{ C.tollfree }}</a></p>
+        <p><a href="{{ C.whatsapp_link }}">WhatsApp {{ C.whatsapp }}</a></p>
+      </div>
+      <div class="panel" style="display:flex;gap:12px;align-items:center">
+        <img src="assets/img/logo-nabh.png" alt="NABH accredited" width="48" height="48">
+        <p class="muted" style="font-size:15px"><strong style="color:var(--navy-900)">NABH-accredited</strong><br>{{ C.rating }} from {{ C.reviews }} Google reviews</p>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

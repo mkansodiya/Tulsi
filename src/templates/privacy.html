@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="section">
+  <div class="container">
+    {{ m.crumbs([('Home','index.html'),('Privacy policy','privacy.html')]) }}
+    <div class="prose">
+      <h1>Privacy policy</h1>
+      <p style="margin-top:12px">Sample text for the concept. The clinic should have this reviewed before launch.</p>
+      <h2>What we collect</h2>
+      <p>When you request an appointment, we collect your name, mobile number, preferred clinic and time, and, if you choose to tell us, the treatment you need and whether you have a scheme card.</p>
+      <h2>Why we collect it</h2>
+      <p>Only to arrange and remind you about your appointment. We do not use it for marketing and do not sell or share it.</p>
+      <h2>How long we keep it</h2>
+      <p>Appointment requests from this website are deleted after 90 days. Your treatment records are kept separately, as the law requires.</p>
+      <h2>Your rights</h2>
+      <p>You can ask us to see, correct or delete the information you gave through this website, or withdraw your consent, at any time.</p>
+      <h2>Contact</h2>
+      <p>Grievance officer: [name], Tulsi Dental Clinic, Tulsi Complex, Ramganj, Ajmer 305001. Email <a href="mailto:{{ C.email }}">{{ C.email }}</a>.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

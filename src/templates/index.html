@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="hero">
+  <div class="container">
+    <div class="hero__text">
+      <span class="hero__badge"><img src="assets/img/logo-nabh.png" alt="" width="28" height="28">NABH-accredited dental clinic in Ajmer</span>
+      <h1>Your confidence begins with a smile.</h1>
+      <p class="lead">Let us help you protect, restore and enhance it. Expert dental care in a safe, friendly clinic, cashless for CGHS, RGHS and ECHS members.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--lg" href="book.html">{{ icon('calendar') }}Book appointment</a>
+        <a class="btn btn--outline btn--lg" href="{{ C.whatsapp_link }}">{{ icon('whatsapp', 'icon wa-green') }}WhatsApp us</a>
+      </div>
+      <div class="hero__proof">
+        <span><span class="stars" aria-hidden="true">{% for i in range(5) %}{{ icon('star', 'icon') }}{% endfor %}</span> <strong>{{ C.rating }}</strong> from {{ C.reviews }} Google reviews</span>
+        <span>Booking is free</span>
+      </div>
+    </div>
+    <div class="hero__media">
+      {{ img('team-group', 'The Tulsi Dental Clinic team at the Ramganj clinic', '(max-width: 860px) 100vw, 540px', eager=True) }}
+      <div class="hero__card">
+        <img src="assets/img/logo-nabh.png" alt="" width="40" height="40">
+        <div><strong>NABH-accredited since 2021</strong><span>Certificate {{ C.nabh_cert }}, valid to {{ C.nabh_valid }}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="schemes-strip" aria-labelledby="schemes-h">
+  <div class="container">
+    <div>
+      <h2 id="schemes-h">Empanelled for CGHS, RGHS and ECHS</h2>
+      <p>Cashless dental treatment for covered procedures. CAPF and Air India panels accepted. <a href="schemes-prices.html">How it works</a></p>
+    </div>
+    {{ m.scheme_logos() }}
+  </div>
+</section>
+
+<section class="stats" aria-label="Clinic in numbers">
+  <div class="container">
+    <div class="stat"><strong>10,000+</strong><span>patients cared for</span></div>
+    <div class="stat"><strong>3,000+</strong><span>crowns fitted</span></div>
+    <div class="stat"><strong>2,000+</strong><span>oral surgeries</span></div>
+    <div class="stat"><strong>Since 2009</strong><span>6 dentists, 2 clinics</span></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="treat-h">
+  <div class="container">
+    <div class="section-head">
+      <div><h2 id="treat-h">Our treatments</h2><p>General care, cosmetic dentistry and implants under one roof. Your dentist explains the treatment, visits and cost before anything begins.</p></div>
+      <a class="link-more" href="services.html">All treatments and prices</a>
+    </div>
+    <div class="grid grid--services">
+      {% for s in SERVICES %}{{ m.service_card(s) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--warm" aria-labelledby="how-h">
+  <div class="container split">
+    {{ img('reception-nabh', 'Front desk at the Ramganj clinic, with the NABH accreditation standee', '(max-width: 860px) 100vw, 540px', 'rounded') }}
+    <div class="stack">
+      <h2 id="how-h">Use your CGHS, RGHS or ECHS card here</h2>
+      <ol class="steps">
+        <li><div><strong>Bring your scheme card</strong><span>And a referral if your scheme needs one.</span></div></li>
+        <li><div><strong>We verify it at the front desk</strong><span>And tell you which parts of your treatment are covered.</span></div></li>
+        <li><div><strong>Covered treatment is cashless</strong><span>Anything not covered is priced for you before we start.</span></div></li>
+      </ol>
+      <div class="btn-row">
+        <a class="btn btn--secondary" href="{{ C.whatsapp_link }}?text={{ 'Hi, I have a scheme card. Can you check my dental coverage?'|urlencode }}">{{ icon('whatsapp') }}Check my coverage</a>
+        <a class="btn btn--outline" href="schemes-prices.html">Schemes and prices</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="why-h">
+  <div class="container">
+    <div class="section-head"><div><h2 id="why-h">Care with compassion, precision and comfort</h2><p>Many people put off the dentist because they are anxious. We keep visits calm, explain every step and focus on prevention, so you need less treatment later.</p></div></div>
+    <div class="grid grid--features">
+      <div class="feature">{{ img('treatment-room', 'A treatment room at Tulsi Dental Clinic', '(max-width: 640px) 100vw, 370px') }}<h3>Audited for hygiene and safety</h3><p>NABH accreditation covers our sterilisation, infection control and patient records.</p></div>
+      <div class="feature">{{ img('treatment', 'A dentist and assistant treating a patient', '(max-width: 640px) 100vw, 370px') }}<h3>A trained team at every chair</h3><p>Six dentists supported by dental assistants, with X-rays at the clinic so diagnosis and treatment happen in one place.</p></div>
+      <div class="feature">{{ img('cpr-training', 'Staff practising CPR during in-clinic training', '(max-width: 640px) 100vw, 370px') }}<h3>Trained for emergencies</h3><p>Regular in-clinic training, including CPR, so the whole team knows what to do if a patient feels unwell.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" aria-labelledby="doc-h">
+  <div class="container">
+    <div class="section-head">
+      <div><h2 id="doc-h">Meet your dentists</h2><p>Every dentist's qualifications are listed, so you know who treats you.</p></div>
+      <a class="link-more" href="about-us.html">Meet the whole team</a>
+    </div>
+    <div class="people people--scroll">
+      {% for d in DENTISTS %}{{ m.person(d) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="inside-h">
+  <div class="container">
+    <div class="section-head"><h2 id="inside-h">Inside our clinic</h2><a class="link-more" href="gallery.html">View the gallery</a></div>
+    <div class="grid grid--gallery">
+      {% for name, cap in [('reception','Reception and waiting area'),('treatment-team','Treatment in progress'),('waiting-room','Waiting lounge'),('staff-training','Team training')] %}
+      <figure class="gallery-item">{{ img(name, cap, '(max-width: 640px) 50vw, 280px') }}<figcaption>{{ cap }}</figcaption></figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" aria-labelledby="rev-h" style="padding: 32px 0">
+  <div class="container rating">
+    <div class="rating__score"><b>{{ C.rating }}</b><div><h2 id="rev-h">Rated {{ C.rating }} out of 5 by {{ C.reviews }} patients on Google</h2><p class="muted">As shown on Google on {{ C.rating_date }}.</p></div></div>
+    <a class="btn btn--outline" href="{{ C.google }}">Read reviews on Google</a>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="loc-h">
+  <div class="container">
+    <div class="section-head"><h2 id="loc-h">Two clinics in Ajmer</h2><a class="link-more" href="contact.html">Contact and directions</a></div>
+    <div class="grid grid--2">
+      {% for loc in LOCATIONS %}{{ m.location_card(loc) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" aria-labelledby="faq-h">
+  <div class="container">
+    <div class="section-head"><h2 id="faq-h">Questions patients ask first</h2></div>
+    {{ m.faq(HOME_FAQS) }}
+  </div>
+</section>
+
+{{ m.cta('You deserve the best care. Book today.') }}
+{% endblock %}

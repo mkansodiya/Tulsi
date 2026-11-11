@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="page-head section--warm">
+  <div class="container split">
+    <div class="stack">
+      {{ m.crumbs([('Home','index.html'),('Schemes and prices','schemes-prices.html')]) }}
+      <h1>Schemes and prices</h1>
+      <p class="lead">We are empanelled for CGHS, RGHS and ECHS, so covered treatment is cashless. For everyone else, our starting prices are below, so there are no surprises.</p>
+      <div class="btn-row">
+        <a class="btn btn--secondary" href="{{ C.whatsapp_link }}?text={{ 'Hi, I have a scheme card. Can you check my dental coverage?'|urlencode }}">{{ icon('whatsapp') }}Check my coverage</a>
+        <a class="btn btn--outline" href="#prices">See prices</a>
+      </div>
+    </div>
+    {{ m.scheme_logos() }}
+  </div>
+</section>
+
+<section class="section" aria-labelledby="sch-h">
+  <div class="container">
+    <div class="section-head"><div><h2 id="sch-h">Which scheme do you have?</h2><p>Bring the documents listed. Our front desk verifies your card before treatment and tells you what is covered.</p></div></div>
+    <div class="grid grid--schemes">
+      {% for sc in SCHEMES %}
+      <article class="scheme-card">
+        <div class="scheme-card__top">
+          {% if sc.logo %}<img src="assets/img/{{ sc.logo }}" alt="" width="52" height="52">{% else %}<span class="service-card__icon">{{ icon('card', 'icon icon--lg') }}</span>{% endif %}
+          <div><h3>{{ sc.code }}</h3><span class="chip chip--green" style="margin-top:2px">{{ sc.status }}</span></div>
+        </div>
+        <span class="muted">{{ sc.full }}</span>
+        <span><b>Who:</b> {{ sc.who }}</span>
+        <span><b>Bring:</b> {{ sc.bring }}</span>
+        <span><b>Where:</b> {{ sc.where }}</span>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="prices" aria-labelledby="price-h">
+  <div class="container">
+    <div class="section-head"><div><h2 id="price-h">Price list</h2><p>Starting prices for patients paying directly. Your dentist confirms the final cost after examining you. Prices last reviewed 1 November 2026.</p></div></div>
+    <div class="tabs" role="tablist" aria-label="Price categories">
+      {% for key, title, items in PRICE_GROUPS %}<button role="tab" id="tab-{{ key }}" aria-controls="panel-{{ key }}" aria-selected="{{ 'true' if loop.first else 'false' }}" tabindex="{{ 0 if loop.first else -1 }}">{{ title }}</button>{% endfor %}
+    </div>
+    {% for key, title, items in PRICE_GROUPS %}
+    <div class="tabpanel" role="tabpanel" id="panel-{{ key }}" aria-labelledby="tab-{{ key }}" {% if not loop.first %}hidden{% endif %}>
+      <div class="price-box"><table class="price-table">
+        <thead><tr><th scope="col">Treatment</th><th scope="col">Schemes</th><th scope="col">Price</th></tr></thead>
+        <tbody>{% for n, note, p, sch in items %}<tr><td>{{ n }}<small>{{ note }}</small></td><td>{% if sch %}<span class="chip chip--green">Covered</span>{% else %}<span class="muted">Not covered</span>{% endif %}</td><td class="price">{{ p }}</td></tr>{% endfor %}</tbody>
+      </table></div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    {{ img('reception', 'Front desk at the Ramganj clinic', '(max-width: 860px) 100vw, 540px', 'rounded') }}
+    <div class="stack">
+      <h2>Paying at the clinic</h2>
+      <p>Pay by cash, UPI or card at the front desk after your consultation. EMI is available for implants and larger treatment plans.</p>
+      <p>There is no charge to book an appointment.</p>
+      <div><a class="btn btn--primary btn--lg" href="book.html">{{ icon('calendar') }}Book appointment</a></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

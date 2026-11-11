@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block main %}
+<section class="page-head">
+  <div class="container split">
+    <div class="stack">
+      {{ m.crumbs([('Home','index.html'),('About us','about-us.html')]) }}
+      <h1>Calm, careful dentistry for Ajmer since 2009</h1>
+      <p class="lead">We offer general care, cosmetic dentistry, dental implants and smile makeovers from two clinics in Ajmer. Our focus is prevention, personal attention and fair prices, in a setting that eases dental anxiety.</p>
+      <p>In 2021 we became an NABH-accredited dental facility, which means our hygiene, safety and patient-care processes are independently audited.</p>
+    </div>
+    {{ img('reception-nabh', 'Reception at the Ramganj clinic with the NABH accreditation standee', '(max-width: 860px) 100vw, 540px', 'rounded', eager=True) }}
+  </div>
+</section>
+
+<section class="section section--navy">
+  <div class="container grid grid--2">
+    <div class="stat" style="padding-left:16px"><h2 style="font-size:24px;margin-bottom:6px">Our mission</h2><p>To deliver dental care with compassion, precision and comfort: a personal approach and a stress-free experience for every patient.</p></div>
+    <div class="stat" style="padding-left:16px"><h2 style="font-size:24px;margin-bottom:6px">Our vision</h2><p>To be Ajmer's most trusted, patient-centred dental care provider, through ethical care and steady improvement.</p></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="team-h">
+  <div class="container">
+    <div class="section-head"><div><h2 id="team-h">Our team</h2><p>Seventeen people across two clinics: six dentists, six dental assistants and five at the front desk.</p></div></div>
+    <h3 style="margin-bottom:12px">Dentists</h3>
+    <div class="people">{% for d in DENTISTS %}{{ m.person(d, sizes='(max-width: 640px) 50vw, 200px') }}{% endfor %}</div>
+    <h3 style="margin:28px 0 12px">Dental assistants and front desk</h3>
+    <div class="people people--compact">
+      {% for photo, name, role in STAFF %}
+      <div class="person">{{ img(photo, name, '(max-width: 640px) 50vw, 160px') }}<div class="person__body"><strong>{{ name }}</strong><span>{{ role }}</span></div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" style="padding:32px 0">
+  <div class="container rating">
+    <div><h2>See inside our clinic</h2><p class="muted">Treatment rooms, team training and community events.</p></div>
+    <a class="btn btn--outline" href="gallery.html">Open the gallery</a>
+  </div>
+</section>
+{{ m.cta('Come and meet us.') }}
+{% endblock %}
